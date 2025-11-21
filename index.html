@@ -9,52 +9,25 @@
 <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
 
 <style>
-html, body, #map {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    background: #fff;
-    font-family: 'Titillium Web', sans-serif;
-}
-.legend {
-    line-height: 22px;
-    font-size: 14px;
-    width: 260px;
-    color: #333;
-    padding: 8px;
-    background: rgba(255,255,255,0.95);
-    box-shadow: 0 0 15px rgba(0,0,0,0.15);
-    border-radius: 6px;
-}
-.legend i {
-    width:20px;
-    height:20px;
-    float:left;
-    margin-right:8px;
-    opacity:.95;
-    border-radius:3px;
-}
-.legend p {
-    font-size:13px;
-    margin: 3px 0;
-}
-.crime-icon-1 { color:#ff0000 !important; font-size:22px !important; text-shadow:0 0 3px #fff !important; }
-.crime-icon-2 { color:#800080 !important; font-size:22px !important; text-shadow:0 0 3px #fff !important; }
-.crime-icon-3 { color:#ff8c00 !important; font-size:22px !important; text-shadow:0 0 3px #fff !important; }
-.crime-icon-4 { color:#0077ff !important; font-size:22px !important; text-shadow:0 0 3px #fff !important; }
+html, body, #map { width: 100%; height: 100%; margin: 0; background: #fff; font-family: 'Titillium Web', sans-serif; }
+.legend { line-height: 22px; font-size: 14px; width: 260px; color: #333; padding: 8px; background: rgba(255,255,255,0.95); box-shadow: 0 0 15px rgba(0,0,0,0.15); border-radius: 6px; }
+.legend i { width:20px; height:20px; float:left; margin-right:8px; opacity:.95; border-radius:3px; }
+.legend p { font-size:13px; margin: 3px 0; }
+.crime-icon-1 { color:#ff0000; font-size:22px; text-shadow:0 0 3px #fff; }
+.crime-icon-2 { color:#800080; font-size:22px; text-shadow:0 0 3px #fff; }
+.crime-icon-3 { color:#ff8c00; font-size:22px; text-shadow:0 0 3px #fff; }
+.crime-icon-4 { color:#0077ff; font-size:22px; text-shadow:0 0 3px #fff; }
 </style>
 
 <script src="https://unpkg.com/leaflet@1.7.0/dist/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/1.3.4/chroma.min.js"></script>
 </head>
 <body>
-
 <div id="map"></div>
-
 <script>
-function getValue(props, fields) {
+function getValue(props, fields){
     for (let key of fields) {
         if (props[key] !== undefined && props[key] !== null) {
             let num = Number(props[key]);
@@ -94,16 +67,16 @@ $.getJSON("assets/crimes.geojson", function(data){
 });
 
 function setColor(d){
-    if (d > 500) return polycolors[9];
-    else if (d > 400) return polycolors[8];
-    else if (d > 350) return polycolors[7];
-    else if (d > 300) return polycolors[6];
-    else if (d > 250) return polycolors[5];
-    else if (d > 200) return polycolors[4];
-    else if (d > 150) return polycolors[3];
-    else if (d > 100) return polycolors[2];
-    else if (d > 50) return polycolors[1];
-    else return polycolors[0];
+    if(d>500) return polycolors[9];
+    if(d>400) return polycolors[8];
+    if(d>350) return polycolors[7];
+    if(d>300) return polycolors[6];
+    if(d>250) return polycolors[5];
+    if(d>200) return polycolors[4];
+    if(d>150) return polycolors[3];
+    if(d>100) return polycolors[2];
+    if(d>50) return polycolors[1];
+    return polycolors[0];
 }
 
 L.geoJson.ajax("assets/crimes.geojson", {
@@ -125,10 +98,10 @@ L.geoJson.ajax("assets/crimes.geojson", {
         let robbery = Number(getValue(p, ["Robbery"])) || 0;
         let assault = Number(getValue(p, ["Aggravated Assault"])) || 0;
         let iconClass = "";
-        if (murder > 0) iconClass = "fa-solid fa-skull-crossbones crime-icon-1";
-        else if (rape > 0) iconClass = "fa-solid fa-handcuffs crime-icon-2";
-        else if (robbery > 0) iconClass = "fa-solid fa-mask crime-icon-3";
-        else if (assault > 0) iconClass = "fa-solid fa-fist-raised crime-icon-4";
+        if(murder>0) iconClass = "fa-solid fa-skull-crossbones crime-icon-1";
+        else if(rape>0) iconClass = "fa-solid fa-handcuffs crime-icon-2";
+        else if(robbery>0) iconClass = "fa-solid fa-mask crime-icon-3";
+        else if(assault>0) iconClass = "fa-solid fa-fist-raised crime-icon-4";
         else iconClass = "fa-solid fa-circle crime-icon-4";
         return L.marker(latlng, {icon:L.divIcon({html:'<i class="'+iconClass+'"></i>', className:'', iconSize:[26,26]})});
     }
@@ -138,7 +111,7 @@ var legend = L.control({position:'topright'});
 legend.onAdd = function() {
     var div = L.DomUtil.create('div', 'legend');
     div.innerHTML += "<b>Total Violent Crime per County</b><br>";
-    for (let i=9;i>=0;i--) div.innerHTML += "<i style='background:"+polycolors[i]+"'></i><p></p>";
+    for(let i=9;i>=0;i--) div.innerHTML += "<i style='background:"+polycolors[i]+"'></i><p></p>";
     div.innerHTML += "<hr><b>Violent Crime Type</b><br>";
     div.innerHTML += "<i class='fa-solid fa-skull-crossbones crime-icon-1'></i><p>Murder</p>";
     div.innerHTML += "<i class='fa-solid fa-handcuffs crime-icon-2'></i><p>Rape</p>";
@@ -147,8 +120,9 @@ legend.onAdd = function() {
     return div;
 };
 legend.addTo(mymap);
-
 L.control.scale({position:'bottomleft'}).addTo(mymap);
 </script>
 </body>
 </html>
+
+
