@@ -43,7 +43,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png').addTo
 var polycolors = chroma.scale('Purples').colors(10);
 var countyCrimeTotals = {};
 
-$.getJSON("assets/crimes.geojson", function(data){
+$.getJSON("crimes.geojson", function(data){
     data.features.forEach(function(f){
         let props = f.properties;
         let countyName = props.County || props.county || props.Name || props.name || "Unknown";
@@ -52,7 +52,7 @@ $.getJSON("assets/crimes.geojson", function(data){
         countyCrimeTotals[countyName] += violent;
     });
 
-    L.geoJson.ajax("assets/muni.geojson", {
+    L.geoJson.ajax("muni.geojson", {
         style: function(feature){
             let name = getValue(feature.properties, ["name","NAME","county","County"]) || "Unknown";
             let total = countyCrimeTotals[name] || 0;
@@ -124,5 +124,6 @@ L.control.scale({position:'bottomleft'}).addTo(mymap);
 </script>
 </body>
 </html>
+
 
 
