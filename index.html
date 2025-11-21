@@ -79,7 +79,7 @@ function setColor(d){
     return polycolors[0];
 }
 
-L.geoJson.ajax("assets/crimes.geojson", {
+L.geoJson.ajax("crimes.geojson", {
     onEachFeature: function(feature, layer){
         let p = feature.properties || {};
         let city = getValue(p, ["City","city","NAME","name"]) || "City";
@@ -124,6 +124,7 @@ L.control.scale({position:'bottomleft'}).addTo(mymap);
 </script>
 </body>
 </html>
+
 
 
 
